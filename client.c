@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/03/31 18:31:46 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/01 15:05:48 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void client_prompt(int sock)
 		buf[ret - 1] = '\0';
 		printf("Input: [%s]\n", buf);
 		write(sock, buf, ft_strlen(buf));
+		if (ft_strcmp(buf, "quit") == 0)
+			exit(0);
 		if (!(buf_serv = (char *)malloc(sizeof(char) * 1024 + 1)))
 			exit(-1);
 		ret_serv = read(sock, buf_serv, 1024);  // read server response

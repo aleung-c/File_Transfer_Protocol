@@ -6,23 +6,20 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/03/31 18:56:19 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/01 14:23:43 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
 
-
-
 void read_client(int cs)
 {
 	int ret;
 	char *buf_client;
-	char *buf_send;
 
 	if (cs >= 0)
 		printf("Connexion receveid.\n");
-	if (!(buf_client = (char *)malloc(sizeof(char) * 1024 + 1)))
+	if (!(buf_client = (char *)malloc(sizeof(char) * 2024 + 1)))
 		exit(-1);
 	while ((ret = read(cs, buf_client, 1024))) // read client request.
 	{
@@ -31,31 +28,14 @@ void read_client(int cs)
 		ft_putstr("[Received]: ");
 		ft_putstr(RESET);
 		printf("%d bytes: [%s]\n", ret, buf_client);
-
-		if (ft_strcmp(buf_client, "hello") == 0)
-		{
-			if (!(buf_send = (char *)malloc(sizeof(char) * 1024 + 1)))
-			exit(-1);
-			buf_send = ft_strdup("how are you?");
-			ft_putstr(KGRN);
-			ft_putstr("[Sent]: ");
-			ft_putstr(RESET);
-			printf("how are you?\n");
-			write(cs, buf_send, ft_strlen(buf_send)); // send data to client.
-		}
-		else
-		{
-			buf_send = ft_strdup("No command found.");
-			ft_putstr(KGRN);
-			ft_putstr("[Sent]: ");
-			ft_putstr(RESET);
-			printf("%s\n", buf_send);
-			write(cs, buf_send, ft_strlen(buf_send)); // send data to client.
-		}
+		
+		check_input(cs, buf_client); // commandes.
+		
 	}
+	exit(0);
 }
 
-void ft_sock_reception(int socket)
+void ft_sock_reception(int client_socket)
 {
 	pid_t child_pid;	
 
@@ -64,9 +44,7 @@ void ft_sock_reception(int socket)
 	if (child_pid >= 0)
 	{
 		if (child_pid == 0)
-			read_client(socket);
-		else
-			waitpid(child_pid, NULL, 0);
+			read_client(client_socket);
 	}
 	else
 	{
@@ -126,8 +104,11 @@ int main(int argc, char **argv)
 	{
 		// gestion d'erreur argv1 a faire ? 
 		sock = create_server(ft_atoi(argv[1])); // socket mere.
-		client_sock = accept(sock, (struct sockaddr *)&csin, &cslen);
-		ft_sock_reception(client_sock);
+		while (1)
+		{
+			client_sock = accept(sock, (struct sockaddr *)&csin, &cslen);
+			ft_sock_reception(client_sock);
+		}
 		//read_client(client_sock); // a mettre dans reception apres fork.
 		close(client_sock);
 		close(sock);

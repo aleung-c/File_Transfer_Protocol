@@ -16,7 +16,7 @@ CLIENT = client
 
 SERVEUR_H = serveur.h
 
-SRC_SERV = serveur.c
+SRC_SERV = serveur.c serv_input_parsing.c
 
 SRC_CLIENT = client.c
 

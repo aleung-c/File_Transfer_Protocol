@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:50:16 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/03/31 16:38:17 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/01 13:54:19 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,11 @@
 # include <netdb.h>
 # include <fcntl.h>
 # include "./libft/libft.h"
+
+/*
+**	Functions prototypes.
+*/
+
+void check_input(int cs, char *buf_client);
 
 #endif
