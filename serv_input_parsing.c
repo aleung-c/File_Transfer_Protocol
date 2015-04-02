@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/01 13:46:25 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/01 15:00:16 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/02 17:40:44 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,86 +47,75 @@ void check_input(int cs, char *buf_client)
 		return ;
 	else if (ft_strcmp(input[0], "hello") == 0)
 	{
-		if (!(buf_send = (char *)malloc(sizeof(char) * 1024 + 1)))
-			exit(-1);
 		buf_send = ft_strdup("how are you?");
 		ft_putstr(KGRN);
 		ft_putstr("[Sent]: ");
 		ft_putstr(RESET);
-		printf("how are you?\n");
-		write(cs, buf_send, ft_strlen(buf_send)); // send data to client.
+		printf("%s\n", buf_send);
+		//write(cs, buf_send, ft_strlen(buf_send)); // send data to client.
+		send(cs, buf_send, ft_strlen(buf_send), MSG_OOB);
 	}
 	else if (ft_strcmp(input[0], "ls") == 0)
 	{
-		if (!(buf_send = (char *)malloc(sizeof(char) * 1024 + 1)))
-			exit(-1);
-		buf_send = ft_strdup("Go ls");
-		ft_putstr(KGRN);
-		ft_putstr("[Sent]: ");
-		ft_putstr(RESET);
-		printf("Go ls\n");
-		write(cs, buf_send, ft_strlen(buf_send));
+		go_ls(cs, input);
+		//write(cs, buf_send, ft_strlen(buf_send));
+		// faire execv et dup2 (avant le execv) pour rediriger la sortie sur le cs.
 	}
 	else if (ft_strcmp(input[0], "cd") == 0)
 	{
-		if (!(buf_send = (char *)malloc(sizeof(char) * 1024 + 1)))
-			exit(-1);
-		buf_send = ft_strdup("Go cd");
+		// faire un built-in cd bloqué au dossier courant.
+		buf_send = ft_strdup("SUCCESS - Go cd");
 		ft_putstr(KGRN);
 		ft_putstr("[Sent]: ");
 		ft_putstr(RESET);
-		printf("Go cd\n");
+		printf("%s\n", buf_send);
 		write(cs, buf_send, ft_strlen(buf_send));
 	}
 	else if (ft_strcmp(input[0], "get") == 0)
 	{
-		if (!(buf_send = (char *)malloc(sizeof(char) * 1024 + 1)))
-			exit(-1);
-		buf_send = ft_strdup("Go get");
+		buf_send = ft_strdup("SUCCESS - Go get");
 		ft_putstr(KGRN);
 		ft_putstr("[Sent]: ");
 		ft_putstr(RESET);
-		printf("Go get\n");
+		printf("%s\n", buf_send);
 		write(cs, buf_send, ft_strlen(buf_send));
+		// Pour copier des fichiers, ouvrir le fichier avec OPEN dans un fd,
+		// Puis, send la taille a copier. utiliser stat sur le fd.
+
+		// utiliser mmap pour copier le fichier sur la memoire.
+		// write sur le cs, avc l'adress de mmap, et la taille recuperée.
+
+		// puis, read le fd sur le client.
+		// creer un nouveau fichier sur le client avec OPEN, flag O_CREATE.
+		// ecrire dans ce fichier avec le client.
 	}
 	else if (ft_strcmp(input[0], "put") == 0)
 	{
-		if (!(buf_send = (char *)malloc(sizeof(char) * 1024 + 1)))
-			exit(-1);
-		buf_send = ft_strdup("Go put");
+		buf_send = ft_strdup("SUCCESS - Go put");
 		ft_putstr(KGRN);
 		ft_putstr("[Sent]: ");
 		ft_putstr(RESET);
-		printf("Go put\n");
+		printf("%s\n", buf_send);
 		write(cs, buf_send, ft_strlen(buf_send));
 	}
 	else if (ft_strcmp(input[0], "pwd") == 0)
 	{
-		if (!(buf_send = (char *)malloc(sizeof(char) * 1024 + 1)))
-			exit(-1);
-		buf_send = ft_strdup("Go pwd");
-		ft_putstr(KGRN);
-		ft_putstr("[Sent]: ");
-		ft_putstr(RESET);
-		printf("Go pwd\n");
-		write(cs, buf_send, ft_strlen(buf_send));
+		go_pwd(cs, input);
 	}
-	else if (ft_strcmp(input[0], "quit") == 0)
+	else if (ft_strcmp(input[0], "quit") == 0 || ft_strcmp(input[0], "exit") == 0)
 	{
-		if (!(buf_send = (char *)malloc(sizeof(char) * 1024 + 1)))
-			exit(-1);
-		buf_send = ft_strdup("Quiting server ...");
+		buf_send = ft_strdup("SUCCESS - Quiting server ...");
 		ft_putstr(KGRN);
 		ft_putstr("[Sent]: ");
 		ft_putstr(RESET);
-		printf("Quiting server ...\n");
+		printf("%s\n", buf_send);
 		write(cs, buf_send, ft_strlen(buf_send));
 		close(cs);
 		exit(0);
 	}
 	else
 	{
-		buf_send = ft_strdup("No command found.");
+		buf_send = ft_strdup("ERROR - No command found.");
 		ft_putstr(KGRN);
 		ft_putstr("[Sent]: ");
 		ft_putstr(RESET);

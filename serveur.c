@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/01 14:23:43 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/02 17:32:12 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ void read_client(int cs)
 	char *buf_client;
 
 	if (cs >= 0)
-		printf("Connexion receveid.\n");
-	if (!(buf_client = (char *)malloc(sizeof(char) * 2024 + 1)))
+	{
+		ft_putstr(KYEL);
+		printf("SUCCESS - Connexion received.\n");
+		ft_putstr(RESET);
+	}
+	if (!(buf_client = (char *)malloc(sizeof(char) * 1024 + 1)))
 		exit(-1);
 	while ((ret = read(cs, buf_client, 1024))) // read client request.
 	{
@@ -28,7 +32,6 @@ void read_client(int cs)
 		ft_putstr("[Received]: ");
 		ft_putstr(RESET);
 		printf("%d bytes: [%s]\n", ret, buf_client);
-		
 		check_input(cs, buf_client); // commandes.
 		
 	}
@@ -71,9 +74,8 @@ int create_server(int port)
 		ft_putendl_fd("Bind error.", 2);
 		exit (-1);
 	}
-	
 	ft_putstr(KGRN);
-	printf("- SUCCESS - Server Created.\n");
+	printf("SUCCESS - Server Created.\n");
 	ft_putstr(RESET);
 	printf("Port: %d\n", port);
 	printf("Server socket: %d\n", sock);
