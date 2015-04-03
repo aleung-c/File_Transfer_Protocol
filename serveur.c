@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/02 17:32:12 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/03 17:26:06 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int create_server(int port)
 	ft_putstr(RESET);
 	printf("Port: %d\n", port);
 	printf("Server socket: %d\n", sock);
-
 	listen(sock, 42); // recevoir 42 connexions simultanées.
 	printf("- Awaiting connections... -\n");
 	return (sock);
@@ -93,6 +92,16 @@ void usage(char *str)
 	exit(-1);
 }
 
+char *get_serv_home(void)
+{
+	char *cwd;
+	char *buf;
+
+	buf = NULL;
+	cwd = getcwd(buf, 4096);
+	return (cwd);
+}
+
 int main(int argc, char **argv)
 {
 	int sock; // socket mere.
@@ -104,7 +113,9 @@ int main(int argc, char **argv)
 		usage(argv[0]);
 	else
 	{
-		// gestion d'erreur argv1 a faire ? 
+		// gestion d'erreur argv1 a faire ?
+		home = get_serv_home();
+		//printf("%s\n", home); // test print home global var.
 		sock = create_server(ft_atoi(argv[1])); // socket mere.
 		while (1)
 		{

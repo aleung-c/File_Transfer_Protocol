@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/02 17:40:43 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/03 17:34:21 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void client_prompt(int sock)
 	char *buf_serv;
 
 	prompt();
-	if (!(buf = (char *)malloc(sizeof(char) * 1024 + 1)))
+	if (!(buf = (char *)malloc(sizeof(char) * 4096 + 1)))
 		exit(-1);
-	while ((ret = read(0, buf, 1024))) // read user input
+	while ((ret = read(0, buf, 4096))) // read user input
 	{
 		buf[ret - 1] = '\0';
 		ft_putstr(KYEL);
@@ -39,7 +39,7 @@ void client_prompt(int sock)
 		write(sock, buf, ft_strlen(buf)); // write user input;
 		if (ft_strcmp(buf, "quit") == 0)
 			exit(0);
-		if (!(buf_serv = (char *)malloc(sizeof(char) * 1024 + 1)))
+		if (!(buf_serv = (char *)malloc(sizeof(char) * 4096 + 1)))
 			exit(-1);
 		ret_serv = read(sock, buf_serv, 1024);  // read server response
 		buf_serv[ret_serv] = '\0';
@@ -49,9 +49,13 @@ void client_prompt(int sock)
 		printf("\n%s\n", buf_serv);
 		if (ft_strstr(buf_serv, "SUCCESS"))
 		{
-			ret_serv = read(sock, buf_serv, 1024);  // read content.
+			// GO PARSE SUCCESS avec le buf du client pour check put et get.
+			ret_serv = read(sock, buf_serv, 4096);
+			// read content.
 			buf_serv[ret_serv] = '\0';
-			printf("%s\n", buf_serv);
+			ft_putstr(buf_serv);
+			ft_putchar('\n');
+			//free(buf_serv);
 		}
 		prompt();
 	}

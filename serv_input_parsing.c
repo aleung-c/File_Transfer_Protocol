@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/01 13:46:25 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/02 17:40:44 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/03 16:44:41 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,7 @@ void check_input(int cs, char *buf_client)
 	else if (ft_strcmp(input[0], "cd") == 0)
 	{
 		// faire un built-in cd bloqué au dossier courant.
-		buf_send = ft_strdup("SUCCESS - Go cd");
-		ft_putstr(KGRN);
-		ft_putstr("[Sent]: ");
-		ft_putstr(RESET);
-		printf("%s\n", buf_send);
-		write(cs, buf_send, ft_strlen(buf_send));
+		go_cd(cs, input);
 	}
 	else if (ft_strcmp(input[0], "get") == 0)
 	{

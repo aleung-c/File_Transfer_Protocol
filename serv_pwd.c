@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/02 17:01:39 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/02 17:03:54 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/03 17:20:06 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,33 @@
 void	go_pwd(int cs, char **input)
 {
 	char *buf_send;
-	int child;
+	// int child;
+	char *pwd;
+	char *buf_cwd;
+	int p_len;
 
+	if (input)
+	{}
 	buf_send = ft_strdup("SUCCESS - Go pwd");
 	ft_putstr(KGRN);
 	ft_putstr("[Sent]: ");
 	ft_putstr(RESET);
 	printf("%s\n", buf_send);
 	write(cs, buf_send, ft_strlen(buf_send));
-	child = fork();
-	if (child == 0)
-	{
-		dup2(cs, 1);
-		execv("/bin/pwd", input);
-	}
+
+	buf_cwd = NULL;
+	pwd = getcwd(buf_cwd, 4096);
+	p_len = ft_strlen(pwd) - ft_strlen(home);
+	if (p_len > 0)
+		write(cs, &pwd[ft_strlen(home)], p_len);
 	else
-		wait(NULL);
+		write(cs, "/\n", 1);
+	// child = fork();
+	// if (child == 0)
+	// {
+	// 	dup2(cs, 1);
+	// 	execv("/bin/pwd", input);
+	// }
+	// else
+	// 	wait(NULL);
 }
