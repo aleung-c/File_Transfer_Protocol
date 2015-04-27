@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/03 17:26:06 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/27 16:19:25 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void read_client(int cs)
 {
 	int ret;
-	char *buf_client;
+	char  buf_client[1025];
 
 	if (cs >= 0)
 	{
@@ -23,8 +23,8 @@ void read_client(int cs)
 		printf("SUCCESS - Connexion received.\n");
 		ft_putstr(RESET);
 	}
-	if (!(buf_client = (char *)malloc(sizeof(char) * 1024 + 1)))
-		exit(-1);
+	//if (!(buf_client = (char *)malloc(sizeof(char) * 1024 + 1)))
+		//exit(-1);
 	while ((ret = read(cs, buf_client, 1024))) // read client request.
 	{
 		buf_client[ret] = '\0';
@@ -33,7 +33,6 @@ void read_client(int cs)
 		ft_putstr(RESET);
 		printf("%d bytes: [%s]\n", ret, buf_client);
 		check_input(cs, buf_client); // commandes.
-		
 	}
 	exit(0);
 }

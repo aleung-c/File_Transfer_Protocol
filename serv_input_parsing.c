@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/01 13:46:25 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/03 16:44:41 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/27 16:53:18 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ char	**get_input(char *buf_client)
 
 	buf_client = clean_line(buf_client);
 	input = ft_strsplit(buf_client, ' ');
-	if (!input)
+	if (!input || !input[0])
+	{
 		ft_putendl_fd("Input recup failed", 2);
+		return (NULL);
+	}
 	return (input);
 }
 
@@ -44,7 +47,15 @@ void check_input(int cs, char *buf_client)
 
 	input =  get_input(buf_client);
 	if (!(input) || !(input[0]))
+	{
+		buf_send = ft_strdup("ERROR");
+		ft_putstr(KGRN);
+		ft_putstr("[Sent]: ");
+		ft_putstr(RESET);
+		printf("%s\n", buf_send);
+		write(cs, buf_send, ft_strlen(buf_send)); // send data to client.
 		return ;
+	}
 	else if (ft_strcmp(input[0], "hello") == 0)
 	{
 		buf_send = ft_strdup("how are you?");
@@ -66,7 +77,7 @@ void check_input(int cs, char *buf_client)
 		// faire un built-in cd bloqué au dossier courant.
 		go_cd(cs, input);
 	}
-	else if (ft_strcmp(input[0], "get") == 0)
+	else if (ft_strcmp(input[0], "get") == 0)  // A FAIRE
 	{
 		buf_send = ft_strdup("SUCCESS - Go get");
 		ft_putstr(KGRN);
@@ -84,7 +95,7 @@ void check_input(int cs, char *buf_client)
 		// creer un nouveau fichier sur le client avec OPEN, flag O_CREATE.
 		// ecrire dans ce fichier avec le client.
 	}
-	else if (ft_strcmp(input[0], "put") == 0)
+	else if (ft_strcmp(input[0], "put") == 0)  // A FAIRE
 	{
 		buf_send = ft_strdup("SUCCESS - Go put");
 		ft_putstr(KGRN);

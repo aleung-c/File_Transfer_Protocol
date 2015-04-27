@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/03 17:34:21 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/27 16:52:20 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void client_prompt(int sock)
 {
 	int ret;
 	int ret_serv;
-	char *buf;
-	char *buf_serv;
+	char buf[1025];
+	char buf_serv[1025];
 
 	prompt();
-	if (!(buf = (char *)malloc(sizeof(char) * 4096 + 1)))
-		exit(-1);
+	// if (!(buf = (char *)malloc(sizeof(char) * 4096 + 1)))
+	// 	exit(-1);
 	while ((ret = read(0, buf, 4096))) // read user input
 	{
 		buf[ret - 1] = '\0';
@@ -36,17 +36,20 @@ void client_prompt(int sock)
 		ft_putstr("Input: ");
 		ft_putstr(RESET);
 		printf("[%s]\n", buf);
-		write(sock, buf, ft_strlen(buf)); // write user input;
-		if (ft_strcmp(buf, "quit") == 0)
-			exit(0);
-		if (!(buf_serv = (char *)malloc(sizeof(char) * 4096 + 1)))
-			exit(-1);
+		if (!buf[0])
+			write(sock, " ", 2);
+		else
+			write(sock, buf, ft_strlen(buf)); // write user input;
+		// if (!(buf_serv = (char *)malloc(sizeof(char) * 4096 + 1)))
+		// 	exit(-1);
 		ret_serv = read(sock, buf_serv, 1024);  // read server response
 		buf_serv[ret_serv] = '\0';
 		ft_putstr(KYEL);
 		ft_putstr("Received: ");
 		ft_putstr(RESET);
 		printf("\n%s\n", buf_serv);
+		if (ft_strcmp(buf, "quit") == 0 || ft_strcmp(buf, "exit") == 0)
+				exit(0);
 		if (ft_strstr(buf_serv, "SUCCESS"))
 		{
 			// GO PARSE SUCCESS avec le buf du client pour check put et get.
@@ -56,6 +59,7 @@ void client_prompt(int sock)
 			ft_putstr(buf_serv);
 			ft_putchar('\n');
 			//free(buf_serv);
+			
 		}
 		prompt();
 	}
