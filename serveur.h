@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:50:16 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/03 17:21:55 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/28 17:31:29 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	check_input(int cs, char *buf_client);
 void	go_ls(int cs, char **input);
 void	go_pwd(int cs, char **input);
 void	go_cd(int cs, char **input);
-void change_dir(char *path);
+void	change_dir(char *path);
+void	go_get(int cs, char **input);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/01 13:46:25 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/27 16:53:18 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/28 17:29:54 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ void check_input(int cs, char *buf_client)
 		ft_putstr(RESET);
 		printf("%s\n", buf_send);
 		write(cs, buf_send, ft_strlen(buf_send));
+		go_get(cs, input);
+		
+
 		// Pour copier des fichiers, ouvrir le fichier avec OPEN dans un fd,
 		// Puis, send la taille a copier. utiliser stat sur le fd.
 
