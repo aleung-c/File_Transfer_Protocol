@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:50:16 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/28 17:31:29 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/30 15:56:13 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@
 # include <netdb.h>
 # include <fcntl.h>
 # include "./libft/libft.h"
+# include <sys/stat.h>
+# include <sys/mman.h>
+# include <sys/types.h>
 
 char *home;
 
 /*
-**	Functions prototypes.
+**	Functions prototypes - Serveur.
 */
 
 void	check_input(int cs, char *buf_client);
@@ -42,5 +45,11 @@ void	go_pwd(int cs, char **input);
 void	go_cd(int cs, char **input);
 void	change_dir(char *path);
 void	go_get(int cs, char **input);
+
+/*
+**	Functions prototypes - Client.
+*/
+
+void client_get(int cs, char *buf_serv);
 
 #endif

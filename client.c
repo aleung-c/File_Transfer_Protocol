@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/27 16:52:20 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/30 15:56:11 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,24 @@ void client_prompt(int sock)
 		ret_serv = read(sock, buf_serv, 1024);  // read server response
 		buf_serv[ret_serv] = '\0';
 		ft_putstr(KYEL);
-		ft_putstr("Received: ");
+		ft_putstr("Received: "); // print serv response.
 		ft_putstr(RESET);
-		printf("\n%s\n", buf_serv);
+		printf("\n%s --- READ 1\n", buf_serv);
 		if (ft_strcmp(buf, "quit") == 0 || ft_strcmp(buf, "exit") == 0)
 				exit(0);
-		if (ft_strstr(buf_serv, "SUCCESS"))
+		if (ft_strstr(buf_serv, "SUCCESS")) // si SUCCESS dans response, refaire une lecture.
 		{
-			// GO PARSE SUCCESS avec le buf du client pour check put et get.
-			ret_serv = read(sock, buf_serv, 4096);
-			// read content.
-			buf_serv[ret_serv] = '\0';
-			ft_putstr(buf_serv);
-			ft_putchar('\n');
-			//free(buf_serv);
-			
+			if (ft_strstr(buf_serv, "get")) // PARSE SUCCESS avec le buf du client pour check put et get.
+				client_get(sock, buf_serv);
+			else
+			{
+				ret_serv = read(sock, buf_serv, 4096);
+				// read content.
+				buf_serv[ret_serv] = '\0';
+				ft_putstr(buf_serv);
+				//ft_putchar('\n');
+				//free(buf_serv);
+			}
 		}
 		prompt();
 	}

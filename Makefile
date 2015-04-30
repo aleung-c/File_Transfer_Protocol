@@ -16,9 +16,10 @@ CLIENT = client
 
 SERVEUR_H = serveur.h
 
-SRC_SERV = serveur.c serv_input_parsing.c serv_ls.c serv_pwd.c serv_cd.c serv_get.c
+SRC_SERV = serveur.c serv_input_parsing.c serv_ls.c serv_pwd.c serv_cd.c \
+serv_get.c serv_display.c
 
-SRC_CLIENT = client.c
+SRC_CLIENT = client.c client_get.c
 
 OBJ_SERV = $(SRC_SERV:.c=.o)
 

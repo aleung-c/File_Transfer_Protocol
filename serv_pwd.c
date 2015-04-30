@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/02 17:01:39 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/03 17:20:06 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/30 16:15:47 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	go_pwd(int cs, char **input)
 	if (p_len > 0)
 		write(cs, &pwd[ft_strlen(home)], p_len);
 	else
-		write(cs, "/\n", 1);
+		write(cs, "/\n", 2);
 	// child = fork();
 	// if (child == 0)
 	// {

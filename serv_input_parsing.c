@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/01 13:46:25 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/28 17:29:54 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/04/29 15:28:37 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void check_input(int cs, char *buf_client)
 	else if (ft_strcmp(input[0], "ls") == 0)
 	{
 		go_ls(cs, input);
-		//write(cs, buf_send, ft_strlen(buf_send));
+		// write(cs, buf_send, ft_strlen(buf_send));
 		// faire execv et dup2 (avant le execv) pour rediriger la sortie sur le cs.
 	}
 	else if (ft_strcmp(input[0], "cd") == 0)
@@ -79,12 +79,7 @@ void check_input(int cs, char *buf_client)
 	}
 	else if (ft_strcmp(input[0], "get") == 0)  // A FAIRE
 	{
-		buf_send = ft_strdup("SUCCESS - Go get");
-		ft_putstr(KGRN);
-		ft_putstr("[Sent]: ");
-		ft_putstr(RESET);
-		printf("%s\n", buf_send);
-		write(cs, buf_send, ft_strlen(buf_send));
+		
 		go_get(cs, input);
 		
 
