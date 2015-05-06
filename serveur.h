@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:50:16 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/30 15:56:13 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/06 18:16:50 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define KCYN  "\x1B[36m"
 # define KWHT  "\x1B[37m"
 # define RESET "\033[0m"
+
+# define MAX_FILESIZE 524288000
 
 # include <stdio.h>
 # include <sys/socket.h>
@@ -45,11 +47,14 @@ void	go_pwd(int cs, char **input);
 void	go_cd(int cs, char **input);
 void	change_dir(char *path);
 void	go_get(int cs, char **input);
+void	write_cs(int cs,  char *text, int visible);
+void	file_transfer(int cs, char *input, int fd);
 
 /*
 **	Functions prototypes - Client.
 */
 
-void client_get(int cs, char *buf_serv);
+void client_get(int cs, char *buf_serv, char *buf);
+
 
 #endif

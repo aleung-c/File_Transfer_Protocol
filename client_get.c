@@ -6,22 +6,25 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/29 15:35:48 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/04 17:12:18 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/06 18:20:21 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
 
-void client_get(int sock, char *buf_serv) // BUG avc fichiers non textes...
+void client_get(int sock, char *buf_serv, char *buf) // envoyer nom du fichier dedans, pour securite.
 {
 	int ret_serv;
 	int size_to_get;
-	char *buf;
 	char *file_name;
 	int fd_newfile;
 	char *buf_file;
 	struct stat file_stat;
 
+	if (buf)
+	{
+		ft_putendl(buf);
+	}
 	if (!ft_strstr(buf_serv, "ERROR")) // check READ 1 si error argunment. sinon receive size OK
 	{
 		// receive size.
@@ -41,14 +44,30 @@ void client_get(int sock, char *buf_serv) // BUG avc fichiers non textes...
 		write(sock, buf, ft_strlen(buf));
 
 		// receive FILE.
-		buf_file = ft_strnew(size_to_get);
-		ret_serv = read(sock, buf_file, size_to_get);
-		// read content.
-		buf_file[ret_serv] = '\0';
-		// mettre le buf dans un fichier => OPEN O_CREAT.
+		buf_file = ft_strnew(1025);
+		int somme;
+
+		somme = 0;
 		fd_newfile = open(file_name, O_WRONLY | O_CREAT | O_APPEND, S_IRWXU | S_IRGRP | S_IROTH );
-		write(fd_newfile, buf_file, size_to_get);
+		while ((ret_serv = recv(sock, buf_file, 1024, 0)) > 0)
+		{
+			buf_file[ret_serv] = '\0';
+			somme += ret_serv;
+			write(fd_newfile, buf_file, ret_serv); // write in file.
+			//ft_putnbr(somme);
+			// ft_putstr(buf_file);
+			// ft_putchar('\n');
+			if (somme >= size_to_get)
+				break;
+		}
+		// ft_putstr("a");
+		// read content.
+		// buf_file[ret_serv] = '\0';
+		// mettre le buf dans un fichier => OPEN O_CREAT.
+		
+		
 		close(fd_newfile);
+		free(buf_file);
 		//ft_putstr(buf_file);
 		ft_putstr("SUCCESS - File received\n");
 		
