@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:50:16 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/06 18:16:50 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/07 13:32:53 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,15 @@ void	change_dir(char *path);
 void	go_get(int cs, char **input);
 void	write_cs(int cs,  char *text, int visible);
 void	file_transfer(int cs, char *input, int fd);
+void	go_put(int cs, char **input);
+char	*clean_line(char *line);
 
 /*
 **	Functions prototypes - Client.
 */
 
 void client_get(int cs, char *buf_serv, char *buf);
-
+void client_put(int sock, char *buf_serv, char *input);
+void write_sock(int sock,  char *text, int visible);
 
 #endif

@@ -6,11 +6,25 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/06 18:20:23 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/07 13:46:49 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
+
+char	*clean_line(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '\t')
+			line[i] = ' ';
+		i++;
+	}
+	return (line);
+}
 
 void	prompt()
 {
@@ -54,6 +68,8 @@ void client_prompt(int sock)
 		{
 			if (ft_strstr(buf_serv, "get")) // PARSE SUCCESS avec le buf du client pour check put et get.
 				client_get(sock, buf_serv, buf);
+			else if (ft_strstr(buf_serv, "put"))
+				client_put(sock, buf_serv, buf);
 			else
 			{
 				ret_serv = read(sock, buf_serv, 4096);

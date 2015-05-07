@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   serv_ls.c                                          :+:      :+:    :+:   */
+/*   client_func.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/04/02 13:19:55 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/07 11:47:37 by aleung-c         ###   ########.fr       */
+/*   Created: 2015/05/07 12:02:35 by aleung-c          #+#    #+#             */
+/*   Updated: 2015/05/07 13:33:17 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
 
-void	go_ls(int cs, char **input) // SEGFAULT.
+void write_sock(int sock,  char *text, int visible)
 {
-	pid_t child;
-	char *buf_send;
+		char *buf_send;
 
-	buf_send = ft_strdup("SUCCESS - Go ls");
-	ft_putstr(KGRN);
-	ft_putstr("[Sent]: ");
-	ft_putstr(RESET);
-	printf("%s\n", buf_send);
-	write(cs, buf_send, ft_strlen(buf_send));
-
-
-	child = fork();
-	if (child == 0)
-	{
-		dup2(cs, 1);
-		execv("/bin/ls", input);
-	}
-	else
-		wait(NULL);
+		buf_send = ft_strdup(text);
+		if (visible == 1)
+		{
+			ft_putstr(KGRN);
+			ft_putstr("[Sent]: ");
+			ft_putstr(RESET);
+			printf("%s\n", buf_send);
+		}
+		write(sock, buf_send, ft_strlen(buf_send));
+		free(buf_send);
 }

@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/28 17:18:00 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/06 18:16:28 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/07 16:18:38 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void go_get(int cs, char **input)
 	int fd;
 
 	if (!input[1]) // check si manque argument.
-		write_cs(cs, "ERROR - Missing argument", 1);
+		write_cs(cs, "ERROR - Missing argument\nUsage: get <file>", 1);
 	else
 	{
 		if ((fd = open(input[1], O_RDONLY)) < 0) //
@@ -41,7 +41,7 @@ void file_transfer(int cs, char *input, int fd)
 	
 	buf_send = NULL;
 	// GET FILE INFO.
-	stat(input, &file_stat);
+	fstat(fd, &file_stat);
 
 	printf("File size = %lld\n",  file_stat.st_size);
 	if (file_stat.st_size > MAX_FILESIZE) // securité pour taille de fichier trop grande. 500 Mo max set. voir .h
@@ -55,8 +55,6 @@ void file_transfer(int cs, char *input, int fd)
 
 	// MAP FILE
 	file = (char *)mmap(0, file_stat.st_size + 1, PROT_READ, MAP_FILE | MAP_PRIVATE, fd, 0);
-	// file[file_stat.st_size] = '\0';
-	//ft_putstr(file);
 	if (file == MAP_FAILED)
 	{
 		ft_putnbr(errno); //

@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/01 13:46:25 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/06 18:15:40 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/07 13:29:22 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void check_input(int cs, char *buf_client)
 	else if (ft_strcmp(input[0], "get") == 0)  // EN COURS.
 		go_get(cs, input);
 	else if (ft_strcmp(input[0], "put") == 0)  // A FAIRE
-		write_cs(cs, "SUCCESS - Go put", 1);
+		go_put(cs, input);
 	else if (ft_strcmp(input[0], "pwd") == 0)
 		go_pwd(cs, input);
 	else if (ft_strcmp(input[0], "quit") == 0 || ft_strcmp(input[0], "exit") == 0)
