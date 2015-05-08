@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:50:16 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/07 13:32:53 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/08 18:11:15 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 # define KWHT  "\x1B[37m"
 # define RESET "\033[0m"
 
-# define MAX_FILESIZE 524288000
+# define MSG_BUFSIZE 1025
+# define FILE_BUFSIZE 4096
+# define MAX_FILESIZE 180000000
 
 # include <stdio.h>
 # include <sys/socket.h>
@@ -37,6 +39,26 @@
 
 char *home;
 
+typedef struct		s_msg {
+	int		ret_client;
+	char	buf_client[MSG_BUFSIZE];
+	int		ret_serv;
+	char	buf_serv[MSG_BUFSIZE];
+}					t_msg;
+
+typedef struct		s_transfer {
+	int		file_size;
+	char	*file_name;
+	int		fd_newfile;
+	char	*file;
+}					t_transfer;
+
+typedef struct		s_progression {
+	int somme;
+	int percent;
+	int prec_res;
+}					t_progression;
+
 /*
 **	Functions prototypes - Serveur.
 */
@@ -48,16 +70,29 @@ void	go_cd(int cs, char **input);
 void	change_dir(char *path);
 void	go_get(int cs, char **input);
 void	write_cs(int cs,  char *text, int visible);
-void	file_transfer(int cs, char *input, int fd);
+void	file_transfer(int cs, int fd);
 void	go_put(int cs, char **input);
 char	*clean_line(char *line);
+void	prepare_receive(int cs, t_msg *msg, t_transfer *tr);
+void	serv_receive(int cs, int fd_newfile, int file_size);
+void	check_filesize(int fd_newfile, char *file_name, int file_size);
+void	serv_prepare_send(int cs, int fd, t_transfer *tr);
+void	serv_send_datas(int cs, t_transfer *tr);
 
 /*
 **	Functions prototypes - Client.
 */
 
-void client_get(int cs, char *buf_serv, char *buf);
-void client_put(int sock, char *buf_serv, char *input);
-void write_sock(int sock,  char *text, int visible);
+void	prompt();
+void	usage(char *str);
+int		create_client(char *addr, int port);
+void	client_parse(int sock, char *buf, char *buf_serv);
+void	client_get(int cs, char *buf_serv, char *buf);
+void	client_receive(int sock, int fd_newfile, int file_size);
+void	client_put(int sock, char *buf_serv, char *input);
+void	write_sock(int sock,  char *text, int visible);
+void	client_prepare_put(int sock, int fd, t_transfer *tr);
+void	ready_send(int sock, t_transfer *tr);
+void	display_input(char *buf);
 
 #endif
