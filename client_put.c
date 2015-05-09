@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/07 11:55:19 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/08 18:12:15 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/09 14:12:16 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,18 @@ void	client_put(int sock, char *buf_serv, char *input)
 			write_sock(sock, "ERROR - File not existing\n", 1);
 			return ;
 		}
-		client_prepare_put(sock, fd, &tr);
+		if (client_prepare_put(sock, fd, &tr) != 0)
+			return ;
 		if (tr.file_size == 0)
 		{
-			write_sock(sock, "ERROR - Empty or corrupted file", 1);
+			write_sock(sock, "ERROR - Not a valid file", 1);
 			return ;
 		}
 		ready_send(sock, &tr);
 	}
 }
 
-void	client_prepare_put(int sock, int fd, t_transfer *tr)
+int		client_prepare_put(int sock, int fd, t_transfer *tr)
 {
 	char			*send_datas;
 	struct stat		file_stat;
@@ -48,23 +49,22 @@ void	client_prepare_put(int sock, int fd, t_transfer *tr)
 	if (tr->file_size > MAX_FILESIZE)
 	{
 		write_sock(sock, "ERROR - File too big. Max = 1800Mo\n", 1);
-		return ;
+		return (-1);
 	}
 	send_datas = ft_strjoin("name=", tr->file_name);
 	send_datas = ft_strjoin(send_datas, " ");
 	send_datas = ft_strjoin(send_datas, ft_strjoin("size=",
 	ft_itoa(tr->file_size)));
-	write_sock(sock, send_datas, 1);
-	free(send_datas);
 	tr->file = (char *)mmap(0, file_stat.st_size + 1, PROT_READ,
 	MAP_FILE | MAP_PRIVATE, fd, 0);
-	if (tr->file == MAP_FAILED || tr->file_size == 0)
+	if (tr->file == MAP_FAILED)
 	{
 		write_sock(sock, "ERROR - Not a valid file", 1);
-		return ;
+		return (-1);
 	}
-	else
-		printf("mmap : SUCCESS\n");
+	write_sock(sock, send_datas, 1);
+	free(send_datas);
+	return (0);
 }
 
 void	ready_send(int sock, t_transfer *tr)

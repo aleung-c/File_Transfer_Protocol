@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/01 13:46:25 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/07 13:29:22 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/09 14:22:41 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*clean_line(char *line)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (line[i])
@@ -28,8 +28,10 @@ char	*clean_line(char *line)
 
 char	**get_input(char *buf_client)
 {
-	char **input;
+	char	**input;
+	int		i;
 
+	i = 0;
 	buf_client = clean_line(buf_client);
 	input = ft_strsplit(buf_client, ' ');
 	if (!input || !input[0])
@@ -40,26 +42,25 @@ char	**get_input(char *buf_client)
 	return (input);
 }
 
-void check_input(int cs, char *buf_client)
+void	check_input(int cs, char *buf_client)
 {
-	char **input;
+	char	**input;
 
-	input =  get_input(buf_client);
+	input = get_input(buf_client);
 	if (!(input) || !(input[0]))
 		write_cs(cs, "ERROR", 1);
-	else if (ft_strcmp(input[0], "hello") == 0) // Test fonction.
-		write_cs(cs, "SUCCESS - How are you?", 1);
-	else if (ft_strcmp(input[0], "ls") == 0) // gestion d'erreur A FAIRE
-		go_ls(cs, input); // faire execv et dup2 (avant le execv) pour rediriger la sortie sur le cs.
-	else if (ft_strcmp(input[0], "cd") == 0) // gestion d'erreur A FAIRE
+	else if (ft_strcmp(input[0], "ls") == 0)
+		go_ls(cs, input);
+	else if (ft_strcmp(input[0], "cd") == 0)
 		go_cd(cs, input);
-	else if (ft_strcmp(input[0], "get") == 0)  // EN COURS.
+	else if (ft_strcmp(input[0], "get") == 0)
 		go_get(cs, input);
-	else if (ft_strcmp(input[0], "put") == 0)  // A FAIRE
+	else if (ft_strcmp(input[0], "put") == 0)
 		go_put(cs, input);
 	else if (ft_strcmp(input[0], "pwd") == 0)
-		go_pwd(cs, input);
-	else if (ft_strcmp(input[0], "quit") == 0 || ft_strcmp(input[0], "exit") == 0)
+		go_pwd(cs);
+	else if (ft_strcmp(input[0], "quit") == 0
+		|| ft_strcmp(input[0], "exit") == 0)
 	{
 		write_cs(cs, "SUCCESS - Quiting server ...", 1);
 		close(cs);

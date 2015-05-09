@@ -6,25 +6,22 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/02 13:19:55 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/07 11:47:37 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/09 14:23:05 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
 
-void	go_ls(int cs, char **input) // SEGFAULT.
+void	go_ls(int cs, char **input)
 {
 	pid_t child;
-	char *buf_send;
 
-	buf_send = ft_strdup("SUCCESS - Go ls");
-	ft_putstr(KGRN);
-	ft_putstr("[Sent]: ");
-	ft_putstr(RESET);
-	printf("%s\n", buf_send);
-	write(cs, buf_send, ft_strlen(buf_send));
-
-
+	if (serv_check_ls(input) != 0)
+	{
+		write_cs(cs, "ERROR - ls\nUsage: ls [-l]\n", 1);
+		return ;
+	}
+	write_cs(cs, "SUCCESS - ls\n", 1);
 	child = fork();
 	if (child == 0)
 	{
@@ -33,4 +30,18 @@ void	go_ls(int cs, char **input) // SEGFAULT.
 	}
 	else
 		wait(NULL);
+}
+
+int		serv_check_ls(char **input)
+{
+	if (input[1] && input[2])
+	{
+		ft_putendl("trop d'args");
+		return (-1);
+	}
+	else if (input[1] && ft_strcmp(input[1], "-l") != 0)
+	{
+		return (-1);
+	}
+	return (0);
 }

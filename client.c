@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/08 17:45:15 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/09 14:21:51 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,24 @@ void	client_prompt(int sock)
 
 void	client_parse(int sock, char *buf, char *buf_serv)
 {
-	int ret_serv;
+	int		ret_serv;
+	char	*buf_ls;
 
 	if (ft_strcmp(buf, "quit") == 0 || ft_strcmp(buf, "exit") == 0)
 		exit(0);
 	if (ft_strstr(buf_serv, "SUCCESS"))
 	{
-		if (ft_strstr(buf_serv, "get"))
+		if (ft_strnstr(buf_serv, "get", 20))
 			client_get(sock, buf_serv, buf);
-		else if (ft_strstr(buf_serv, "put"))
+		else if (ft_strnstr(buf_serv, "put", 20))
 			client_put(sock, buf_serv, buf);
+		else if (ft_strnstr(buf_serv, "ls", 20))
+		{
+			buf_ls = ft_strnew(16000);
+			ret_serv = read(sock, buf_ls, 15999);
+			buf_ls[ret_serv] = '\0';
+			ft_putstr(buf_ls);
+		}
 		else
 		{
 			ret_serv = read(sock, buf_serv, MSG_BUFSIZE);
@@ -60,7 +68,7 @@ void	client_parse(int sock, char *buf, char *buf_serv)
 	}
 }
 
-int		main(int argc, char **argv) // A FAIRE : gestion erreur des args plus solide ?
+int		main(int argc, char **argv)
 {
 	int sock;
 	int port;
@@ -70,7 +78,8 @@ int		main(int argc, char **argv) // A FAIRE : gestion erreur des args plus solid
 		usage(argv[0]);
 	else
 	{
-		// gestion d'erreur argv1 a faire ?
+		if (check_args_client(port) != 0)
+			return (-1);
 		sock = create_client(argv[1], port);
 		client_prompt(sock);
 		close(sock);

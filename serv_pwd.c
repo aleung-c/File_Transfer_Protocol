@@ -6,42 +6,25 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/02 17:01:39 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/04/30 16:15:47 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/09 15:05:25 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
 
-void	go_pwd(int cs, char **input)
+void	go_pwd(int cs)
 {
-	char *buf_send;
-	// int child;
-	char *pwd;
-	char *buf_cwd;
-	int p_len;
+	char	*pwd;
+	char	*buf_cwd;
+	int		p_len;
 
-	if (input)
-	{}
-	buf_send = ft_strdup("SUCCESS - Go pwd");
-	ft_putstr(KGRN);
-	ft_putstr("[Sent]: ");
-	ft_putstr(RESET);
-	printf("%s\n", buf_send);
-	write(cs, buf_send, ft_strlen(buf_send));
-
+	write_cs(cs, "SUCCESS - pwd", 1);
 	buf_cwd = NULL;
 	pwd = getcwd(buf_cwd, 4096);
-	p_len = ft_strlen(pwd) - ft_strlen(home);
+	p_len = ft_strlen(pwd) - ft_strlen(g_home);
+	pwd = ft_strjoin(pwd, "\n");
 	if (p_len > 0)
-		write(cs, &pwd[ft_strlen(home)], p_len);
+		write(cs, &pwd[ft_strlen(g_home)], p_len + 1);
 	else
 		write(cs, "/\n", 2);
-	// child = fork();
-	// if (child == 0)
-	// {
-	// 	dup2(cs, 1);
-	// 	execv("/bin/pwd", input);
-	// }
-	// else
-	// 	wait(NULL);
 }

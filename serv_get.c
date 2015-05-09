@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/28 17:18:00 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/08 18:15:12 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/09 11:43:29 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void serv_send_datas(int cs, t_transfer *tr)
 {
 	char			*send_datas;
 
-	send_datas = ft_strjoin("SUCCESS - AWAITING READY SIGNAL get: size=",
+	send_datas = ft_strjoin("SUCCESS - get - AWAITING READY SIGNAL: size=",
 	ft_itoa(tr->file_size));
 	ft_putstr(KGRN);
 	ft_putstr("[Sent]: ");

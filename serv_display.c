@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/30 16:18:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/08 17:48:08 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/09 14:47:37 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,14 @@ void write_cs(int cs, char *text, int visible)
 	}
 	write(cs, buf_send, ft_strlen(buf_send));
 	free(buf_send);
+}
+
+char *get_serv_home(void)
+{
+	char *cwd;
+	char *buf;
+
+	buf = NULL;
+	cwd = getcwd(buf, 4096);
+	return (cwd);
 }

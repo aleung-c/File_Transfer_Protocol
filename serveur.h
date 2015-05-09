@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:50:16 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/08 18:11:15 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/09 14:57:54 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # include <sys/mman.h>
 # include <sys/types.h>
 
-char *home;
+char *g_home;
 
 typedef struct		s_msg {
 	int		ret_client;
@@ -62,37 +62,40 @@ typedef struct		s_progression {
 /*
 **	Functions prototypes - Serveur.
 */
-
-void	check_input(int cs, char *buf_client);
-void	go_ls(int cs, char **input);
-void	go_pwd(int cs, char **input);
-void	go_cd(int cs, char **input);
-void	change_dir(char *path);
-void	go_get(int cs, char **input);
-void	write_cs(int cs,  char *text, int visible);
-void	file_transfer(int cs, int fd);
-void	go_put(int cs, char **input);
-char	*clean_line(char *line);
-void	prepare_receive(int cs, t_msg *msg, t_transfer *tr);
-void	serv_receive(int cs, int fd_newfile, int file_size);
-void	check_filesize(int fd_newfile, char *file_name, int file_size);
-void	serv_prepare_send(int cs, int fd, t_transfer *tr);
-void	serv_send_datas(int cs, t_transfer *tr);
+int					check_arg1(char *arg);
+void				check_input(int cs, char *buf_client);
+char				*get_serv_home(void);
+void				go_ls(int cs, char **input);
+int					serv_check_ls(char **input);
+void				go_pwd(int cs);
+void				go_cd(int cs, char **input);
+void				change_dir(char *path);
+void				go_get(int cs, char **input);
+void				write_cs(int cs, char *text, int visible);
+void				file_transfer(int cs, int fd);
+void				go_put(int cs, char **input);
+char				*clean_line(char *line);
+void				prepare_receive(int cs, t_msg *msg, t_transfer *tr);
+void				serv_receive(int cs, int fd_newfile, int file_size);
+void				check_filesize(int fd_newfile, char *file_name,
+									int file_size);
+void				serv_prepare_send(int cs, int fd, t_transfer *tr);
+void				serv_send_datas(int cs, t_transfer *tr);
 
 /*
 **	Functions prototypes - Client.
 */
-
-void	prompt();
-void	usage(char *str);
-int		create_client(char *addr, int port);
-void	client_parse(int sock, char *buf, char *buf_serv);
-void	client_get(int cs, char *buf_serv, char *buf);
-void	client_receive(int sock, int fd_newfile, int file_size);
-void	client_put(int sock, char *buf_serv, char *input);
-void	write_sock(int sock,  char *text, int visible);
-void	client_prepare_put(int sock, int fd, t_transfer *tr);
-void	ready_send(int sock, t_transfer *tr);
-void	display_input(char *buf);
+void				prompt();
+void				usage(char *str);
+int					check_args_client(int port);
+int					create_client(char *addr, int port);
+void				client_parse(int sock, char *buf, char *buf_serv);
+void				client_get(int cs, char *buf_serv, char *buf);
+void				client_receive(int sock, int fd_newfile, int file_size);
+void				client_put(int sock, char *buf_serv, char *input);
+void				write_sock(int sock, char *text, int visible);
+int					client_prepare_put(int sock, int fd, t_transfer *tr);
+void				ready_send(int sock, t_transfer *tr);
+void				display_input(char *buf);
 
 #endif
