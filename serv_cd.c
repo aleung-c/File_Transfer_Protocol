@@ -6,13 +6,15 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/03 14:14:46 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/09 15:06:19 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/09 15:36:21 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "serveur.h"
 
-void	go_cd(int cs, char **input)
+// bug bloquant quelquepart, et manque affichage error lorsque dossier n'existe pas.
+
+void	go_cd(int cs, char **input) 
 {
 	char	*buf;
 	char	*cwd;
