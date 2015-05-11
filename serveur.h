@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:50:16 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/11 16:11:44 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/11 16:50:57 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 # define MSG_BUFSIZE 1025
 # define FILE_BUFSIZE 4096
-# define MAX_FILESIZE 180000000
+# define MAX_FILESIZE 1800000000
 
 # include <stdio.h>
 # include <sys/socket.h>
