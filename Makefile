@@ -12,7 +12,7 @@
 
 SERVEUR = serveur
 
-CLIENT = ../client
+CLIENT = client
 
 SERVEUR_H = serveur.h
 

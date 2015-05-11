@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/27 18:49:52 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/09 14:21:51 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/11 14:23:55 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	client_prompt(int sock)
 	while ((ret = read(0, buf, MSG_BUFSIZE)))
 	{
 		buf[ret - 1] = '\0';
-		display_input(buf);
 		if (!buf[0])
 			write(sock, " ", 2);
 		else

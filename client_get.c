@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/29 15:35:48 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/08 17:24:12 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/11 15:27:55 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	client_get(int sock, char *buf_serv, char *buf)
 		tr.file_size = ft_atoi(ft_strsplit(buf_serv, '=')[1]);
 		printf("File name = %s, size to receive = %d\n", tr.file_name,
 					tr.file_size);
-		printf("size to get = %d\n", tr.file_size);
 		printf("name = %s\n", tr.file_name);
 		write_sock(sock, "READY to receive file.", 1);
 		tr.fd_newfile = open(tr.file_name, O_WRONLY | O_CREAT | O_APPEND,
@@ -73,5 +72,5 @@ void	check_filesize(int fd_newfile, char *file_name, int file_size)
 	if (file_stat.st_size == file_size)
 		ft_putstr("SUCCESS - File reception - OK\n");
 	else
-		ft_putstr("ERROR - File size incorrect. File may be corrupted\n");
+		ft_putstr("ERROR - File size incorrect. File may be corrupted.\n");
 }

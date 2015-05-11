@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/08 17:30:00 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/08 17:47:45 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/11 14:30:50 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int create_client(char *addr, int port)
 	struct protoent		*proto;
 	struct sockaddr_in	sin;
 
+	if (ft_strcmp(addr, "localhost") == 0)
+		addr = "127.0.0.1";
 	proto = getprotobyname("tcp");
 	if (!proto)
 		return (-1);

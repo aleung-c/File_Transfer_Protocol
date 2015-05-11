@@ -6,7 +6,7 @@
 /*   By: aleung-c <aleung-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/01 13:46:25 by aleung-c          #+#    #+#             */
-/*   Updated: 2015/05/09 15:35:52 by aleung-c         ###   ########.fr       */
+/*   Updated: 2015/05/11 14:24:30 by aleung-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	check_input(int cs, char *buf_client)
 		write_cs(cs, "ERROR", 1);
 	else if (ft_strcmp(input[0], "ls") == 0)
 		go_ls(cs, input);
-	else if (ft_strcmp(input[0], "cd") == 0) // bug bloquant, et manque affichage error.
+	else if (ft_strcmp(input[0], "cd") == 0)
 		go_cd(cs, input);
 	else if (ft_strcmp(input[0], "get") == 0)
 		go_get(cs, input);
