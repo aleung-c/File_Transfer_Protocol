@@ -6,7 +6,7 @@
 #    By: aleung-c <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/03/31 11:51:41 by aleung-c          #+#    #+#              #
-#    Updated: 2015/03/31 11:51:42 by aleung-c         ###   ########.fr        #
+#    Updated: 2015/05/12 12:13:44 by aleung-c         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -29,7 +29,6 @@ OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
 LIB = ./libft/
 
 CC = gcc -g -Wall -Werror -Wextra
-
 
 all : Lib $(SERVEUR) $(CLIENT)
 
