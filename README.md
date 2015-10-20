@@ -7,4 +7,4 @@ This implementation allows the client to use simple unix commands: ls, pwd, and 
 
 The point of the project was to understand the concept of server/client communication. In this idea, the server does not follow the RFC norm.
 
-![Alt text](./cover/ft_p_screenshot.png "Malloc show alloc memory screenshot")
+![Alt text](./cover/ft_p_screenshot.png "Ft_p screenshot")
